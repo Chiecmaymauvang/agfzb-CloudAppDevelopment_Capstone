@@ -2,10 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Registration</title>
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
     <body>
-    <!--Add a registration form here -->
+    {% if message %}
+    <script>
+        alert('{{ message }}');
+    </script>
+{%endif%}
+    <body>
+    <!--Header and Navbar -->
+    <header class="pb-5">
+        <nav class=" navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class=" navbar-brand" href="{% url 'djangoapp:index' %}">Dealership Review &#128663;</a>
+            {% if user.is_authenticated %}
+            <div class="ml-auto">
+                <a class="h6 mr-2 text-light">Welcome, {{user.username}}</a>
+                <a class="btn btn-outline-danger btn-sm" type="button" href="{% url 'djangoapp:logout' %}">Logout</a>
+            </div> 
+            {% else %}
+            <form action="{% url 'djangoapp:login' %}"  method="post" class="ml-auto">
+                {% csrf_token %}<!--Important do not touch-->
+                <input class="" type="text" id="username" name="username" placeholder="UserName:">
+                <input type="password" id="pword" name="pword" placeholder="Password:">
+                <input class="btn btn-outline-success btn-sm" type="submit" value="Login">
+                <a class="btn btn-outline-warning btn-sm" type="submit" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+            </form>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main role="main" class="d-flex justify-content-center pt-3 ">
+        <form action="{% url 'djangoapp:registration' %}"  method="post">
+            <div class="container">
+            {% csrf_token %}
+            <h1>Sign Up</h1>
+            <hr>
+    <div class="form-group"> <!--Style second div with .form-group class -->
+        <label for="username"><b>User Name</b></label>
+        <input type="text" class="form-control" placeholder="Enter User Name: " name="username" required> <!--Style input with .form-control class -->
+        <label for="firstname"><b>First Name</b></label>
+        <input type="text" class="form-control" placeholder="Enter First Name: " name="firstname" required> <!--Style input with .form-control class -->
+        <label for="lastname"><b>Last Name</b></label>
+        <input type="text" class="form-control" placeholder="Enter Last Name: " name="lastname" required> <!--Style input with .form-control class -->
+        <label for="psw"><b>Password</b></label>
+        <input type="password" class="form-control" placeholder="Enter Password: " name="psw" required> <!--Style input with .form-control class -->
+        {% if message %}
+        <div class="alert alert-warning"> <!--Style the message paragraph with .alert and .alert-warning class -->
+            {{ message }}
+        </div>
+        {% endif %}
+        <button class="btn btn-primary" type="submit">Sign up</button> <!--Style button with .btn and .btn-primary class -->
+    </div>
+  </div>
+</form>
+    </main>
+    
     </body>
 </html>
